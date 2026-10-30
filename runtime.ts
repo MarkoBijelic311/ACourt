@@ -1,6 +1,10 @@
-import { defineRuntime, RuntimeState } from "@mozaik-ai/core";
-class AppState extends RuntimeState {}
-const {
+
+import { defineRuntime } from "@mozaik-ai/core";
+import { AppState } from "./types/appState.js";
+
+const runtime = defineRuntime<AppState>();
+
+export const {
   initializeRuntime,
   resolveRuntime,
   resolveParticipant,
@@ -9,5 +13,8 @@ const {
   sendMessage,
   sendEvent,
   runLoop,
-} = defineRuntime<AppState>();
-initializeRuntime({ state: new AppState() });
+} = runtime;
+
+initializeRuntime({
+  state: new AppState(),
+});
