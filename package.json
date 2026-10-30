@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "@mozaik-ai/core": "^4.2.0",
+    "prettier": "^3.9.10"
+  }
+}

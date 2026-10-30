@@ -30,3 +30,5 @@ pnpm-debug.log*
 *.bak
 *.orig
 *.old
+
+.prettierrc
