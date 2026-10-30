@@ -1,6 +1,28 @@
 {
   "dependencies": {
-    "@mozaik-ai/core": "^4.2.0",
+    "@mozaik-ai/core": "^4.1.0",
     "prettier": "^3.9.10"
-  }
+  },
+  "devDependencies": {
+    "typescript": "^7.0.2"
+  },
+  "name": "hakaton-",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MarkoBijelic311/ACourt.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/MarkoBijelic311/ACourt/issues"
+  },
+  "homepage": "https://github.com/MarkoBijelic311/ACourt#readme"
 }
