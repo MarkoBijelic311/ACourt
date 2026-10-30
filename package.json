@@ -1,9 +1,12 @@
 {
   "dependencies": {
     "@mozaik-ai/core": "^4.1.0",
+    "dotenv": "^18.0.9",
     "prettier": "^3.9.10"
   },
   "devDependencies": {
+    "@types/node": "^26.6.6",
+    "tsx": "^4.23.15",
     "typescript": "^7.0.2"
   },
   "name": "hakaton-",
@@ -20,7 +23,7 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "type": "commonjs",
+  "type": "module",
   "bugs": {
     "url": "https://github.com/MarkoBijelic311/ACourt/issues"
   },
