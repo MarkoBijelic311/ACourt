@@ -111,19 +111,21 @@ Needs *affirmative* proof of innocence — not just a thin prosecution case.
 Defendant: [Name]
 
 Alleged Conduct: [Defendant] was accused of [the act] on [date] at [location].
-However, [alibi evidence — e.g. timestamped footage/records] places [Defendant]
-at [a different location] during the exact window of the incident, confirmed
-independently by [multiple named witnesses]. [Investigators] later identified
-and recovered [the evidence/item] from [a different named person], who was
-found in possession of it and confessed. [Defendant] has no connection to
-[that person] and was never in possession of [the item/evidence].
+[Alibi evidence — e.g. timestamped badge-access/work records] places
+[Defendant] at [a different location] for the entire window of the incident,
+independently verified and corroborated by [multiple named witnesses]. (Optional
+but strengthens the case further: investigators identified and recovered the
+evidence from a different named person, who was found in possession of it and
+confessed, with no connection to the defendant.)
 ```
 
-**Checklist — all 4 required:**
-1. A **corroborated alibi** (timestamped evidence + independent witnesses)
-2. Alibi places the defendant **elsewhere during the exact window**
-3. The **actual perpetrator identified** — caught with the evidence, and confessed
-4. Explicit statement defendant has **no connection** to the real perpetrator/evidence
+**Required — the one element that actually matters:**
+1. A **corroborated, independently-verified alibi** placing the defendant elsewhere for the entire window of the incident (timestamped records + multiple named witnesses). This single element was enough to flip a real test case from `INSUFFICIENT_EVIDENCE` to `NOT_GUILTY` on its own.
+
+**Helps further, but not required:**
+- Identifying and catching the actual perpetrator (confirmed in one test to not be necessary when the alibi is solid and the prosecution's case already has independent holes — inconclusive forensics, a recanting eyewitness, etc.)
+
+An earlier version of this README listed 4 "required" items for `NOT_GUILTY`, including identifying the real perpetrator — a follow-up test proved that one isn't actually necessary; it just happened to be present in the first test case.
 
 ### What reliably causes `INSUFFICIENT_EVIDENCE` (avoid these)
 
