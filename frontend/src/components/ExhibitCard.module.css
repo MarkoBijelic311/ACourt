@@ -1,0 +1,130 @@
+.exhibit {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 0.6rem;
+  margin: 0;
+}
+
+.rotA {
+  transform: rotate(-2.5deg);
+}
+.rotB {
+  transform: rotate(1.6deg);
+}
+.rotC {
+  transform: rotate(-1deg);
+}
+
+.clip {
+  position: absolute;
+  top: -0.9rem;
+  left: 50%;
+  width: 1.5rem;
+  height: 2.6rem;
+  margin-left: -0.75rem;
+  z-index: 3;
+  border: 3px solid;
+  border-color: #d8d8d0 #9a9a90 #9a9a90 #d8d8d0;
+  border-radius: 45% 45% 40% 40%;
+  background: linear-gradient(135deg, #e8e8e2, #b9b9b0);
+  box-shadow: 0 3px 5px rgba(0, 0, 0, 0.35);
+}
+
+.polaroid {
+  width: 100%;
+  max-width: 13rem;
+  border-radius: 2px;
+  box-shadow: 0 14px 26px -10px rgba(0, 0, 0, 0.6), 0 3px 8px rgba(0, 0, 0, 0.3);
+  overflow: hidden;
+}
+
+.polaroid img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.docCard {
+  width: 100%;
+  max-width: 13rem;
+  background: var(--parchment);
+  border: 1px solid var(--parchment-shadow);
+  border-radius: 2px;
+  padding: 1rem 1rem 1.1rem;
+  box-shadow: 0 14px 26px -10px rgba(0, 0, 0, 0.6), 0 3px 8px rgba(0, 0, 0, 0.3);
+  min-height: 10.5rem;
+}
+
+.docByline {
+  font-size: 0.6rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--brass-dim);
+  margin: 0 0 0.5rem;
+  border-bottom: 1px dotted var(--brass-dim);
+  padding-bottom: 0.4rem;
+}
+
+.docExcerpt {
+  font-style: italic;
+  font-size: 0.82rem;
+  line-height: 1.5;
+  color: var(--ink);
+  margin: 0;
+}
+
+.noReply {
+  display: inline-block;
+  margin-top: 0.7rem;
+  font-weight: 700;
+  font-size: 0.64rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--red-pen);
+  border: 1.5px solid var(--red-pen);
+  border-radius: 2px;
+  padding: 0.15rem 0.4rem;
+  transform: rotate(-4deg);
+}
+
+.evidenceTag {
+  position: relative;
+  margin-top: 1.1rem;
+  background: linear-gradient(180deg, var(--manila) 0%, var(--manila-dark) 100%);
+  border: 1px solid var(--manila-darker);
+  border-radius: 3px;
+  padding: 0.35rem 0.9rem 0.4rem 1.5rem;
+  box-shadow: 0 4px 8px -2px rgba(0, 0, 0, 0.4);
+}
+
+.evidenceTag::before {
+  content: "";
+  position: absolute;
+  left: 0.55rem;
+  top: 50%;
+  width: 0.4rem;
+  height: 0.4rem;
+  margin-top: -0.2rem;
+  border-radius: 50%;
+  background: var(--walnut-950);
+  box-shadow: 0 0 0 1.5px var(--manila-darker);
+}
+
+.evidenceTag span {
+  font-weight: 700;
+  font-size: 0.72rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--walnut-950);
+}
+
+.exhibitDesc {
+  margin: 0.65rem 0 0;
+  font-size: 0.78rem;
+  line-height: 1.45;
+  color: #5a4a33;
+  text-align: center;
+  max-width: 12.5rem;
+}

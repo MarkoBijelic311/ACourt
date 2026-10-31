@@ -1,0 +1,67 @@
+/* "bar" = full-width file-button style (DeskPage form submit) */
+.bar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  width: 100%;
+  padding: 0.95rem 1.5rem;
+  font-family: "Courier Prime", monospace;
+  font-weight: 700;
+  font-size: 0.92rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--walnut-950);
+  background: linear-gradient(180deg, var(--brass-light) 0%, var(--brass) 55%, var(--brass-dim) 100%);
+  border: 1px solid #5c4119;
+  border-radius: 2px;
+  cursor: pointer;
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.5) inset, 0 1px 0 rgba(0, 0, 0, 0.3), 0 10px 18px -6px rgba(0, 0, 0, 0.6);
+  transition: transform 120ms ease, box-shadow 120ms ease, filter 120ms ease;
+}
+
+.bar:hover:not(:disabled) {
+  filter: brightness(1.06);
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.5) inset, 0 1px 0 rgba(0, 0, 0, 0.3), 0 14px 22px -6px rgba(0, 0, 0, 0.65);
+  transform: translateY(-1px);
+}
+
+.bar:active:not(:disabled) {
+  transform: translateY(1px) scale(0.995);
+  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.4) inset, 0 3px 8px -2px rgba(0, 0, 0, 0.6);
+}
+
+.bar:disabled {
+  pointer-events: none;
+}
+
+/* "pill" = new-case-button style (Verdict page) */
+.pill {
+  display: inline-block;
+  font-family: "Playfair Display", Georgia, serif;
+  font-weight: 700;
+  font-size: 0.78rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  text-decoration: none;
+  color: var(--walnut-950);
+  padding: 0.85rem 1.9rem;
+  border-radius: 4px;
+  border: 1.5px solid #4a3414;
+  background: linear-gradient(180deg, var(--brass-light) 0%, var(--brass) 48%, var(--brass-dim) 100%);
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.5) inset, 0 -2px 8px rgba(0, 0, 0, 0.3) inset,
+    0 10px 24px -8px rgba(0, 0, 0, 0.65);
+  transition: transform 140ms ease, box-shadow 140ms ease, filter 140ms ease;
+  cursor: pointer;
+}
+
+.pill:hover {
+  filter: brightness(1.06);
+  transform: translateY(-1px);
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.5) inset, 0 -2px 8px rgba(0, 0, 0, 0.3) inset,
+    0 14px 30px -8px rgba(0, 0, 0, 0.7);
+}
+
+.pill:active {
+  transform: translateY(1px) scale(0.99);
+}

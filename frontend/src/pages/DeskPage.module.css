@@ -1,0 +1,426 @@
+.masthead {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+  padding: 3.2rem 1.5rem 1.6rem;
+  max-width: 44rem;
+}
+
+.eyebrow {
+  font-family: "Courier Prime", monospace;
+  font-weight: 700;
+  font-size: 0.7rem;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  color: var(--brass-light);
+  margin: 0 0 0.9rem;
+}
+
+.wordmark {
+  font-family: "Playfair Display", Georgia, serif;
+  font-weight: 700;
+  text-transform: uppercase;
+  font-size: clamp(2.1rem, 4.4vw, 3.4rem);
+  letter-spacing: 0.05em;
+  line-height: 1.05;
+  margin: 0;
+  color: var(--parchment);
+  text-shadow: 0 1px 0 rgba(0, 0, 0, 0.5), 0 0 28px rgba(198, 144, 63, 0.18);
+}
+
+.wordmark em {
+  font-style: normal;
+  color: var(--brass-light);
+}
+
+.subhead {
+  font-family: "Playfair Display", Georgia, serif;
+  font-style: italic;
+  font-weight: 400;
+  font-size: clamp(0.98rem, 1.6vw, 1.2rem);
+  color: var(--parchment-dim);
+  margin: 0.85rem 0 0;
+}
+
+/* ---------- case file card ---------- */
+
+.cardStage {
+  position: relative;
+  z-index: 2;
+  flex: 1;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem 1.5rem 3rem;
+}
+
+.caseCard {
+  width: min(37rem, 100%);
+  padding: 2.4rem 2.6rem 2.2rem;
+}
+
+.seal {
+  position: absolute;
+  top: -1.1rem;
+  right: 1.6rem;
+  width: 4.4rem;
+  height: 4.4rem;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, var(--burgundy) 0%, var(--burgundy-dark) 70%, #30060d 100%);
+  border: 1px solid rgba(0, 0, 0, 0.4);
+  box-shadow: 0 6px 14px -4px rgba(0, 0, 0, 0.7), inset 0 1px 1px rgba(255, 255, 255, 0.18);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transform: rotate(9deg);
+  z-index: 3;
+}
+
+.seal span {
+  font-family: "Playfair Display", serif;
+  font-weight: 700;
+  font-size: 1.1rem;
+  letter-spacing: 0.03em;
+  color: var(--parchment-dim);
+}
+
+.cardKicker {
+  text-align: center;
+  font-size: 0.64rem;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: var(--brass-dim);
+  margin: 0 0 0.5rem;
+}
+
+.cardTitle {
+  text-align: center;
+  font-family: "Playfair Display", serif;
+  font-weight: 700;
+  font-size: 1.7rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  margin: 0 0 0.9rem;
+  color: var(--ink);
+}
+
+.rule {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  margin: 0 auto 1.7rem;
+  width: 72%;
+}
+.rule span {
+  display: block;
+  height: 1px;
+  background: var(--brass-dim);
+  opacity: 0.55;
+}
+.rule span:last-child {
+  width: 55%;
+  margin: 0 auto;
+}
+
+.field {
+  margin-bottom: 1.5rem;
+}
+
+.field label {
+  display: block;
+  font-family: "Courier Prime", monospace;
+  font-weight: 700;
+  font-size: 0.68rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--burgundy-dark);
+  margin-bottom: 0.35rem;
+}
+
+.hint {
+  display: block;
+  font-family: "Playfair Display", serif;
+  font-style: italic;
+  font-weight: 400;
+  text-transform: none;
+  letter-spacing: 0;
+  font-size: 0.82rem;
+  color: #5a4a33;
+  margin-top: 0.1rem;
+}
+
+.field input,
+.field textarea {
+  width: 100%;
+  background: transparent;
+  border: none;
+  border-bottom: 1.5px solid var(--brass-dim);
+  font-family: "Courier Prime", monospace;
+  font-size: 1.02rem;
+  color: var(--ink);
+  padding: 0.5rem 0.1rem 0.55rem;
+  transition: border-color 160ms ease, background-color 160ms ease;
+}
+
+.field input::placeholder,
+.field textarea::placeholder {
+  color: #8a7a5c;
+  font-style: italic;
+  opacity: 0.85;
+}
+
+.field input:focus,
+.field textarea:focus {
+  border-bottom-color: var(--burgundy);
+  background: rgba(198, 144, 63, 0.07);
+  outline: none;
+}
+
+.field textarea {
+  resize: vertical;
+  min-height: 7rem;
+  max-height: 16rem;
+  line-height: 1.95rem;
+  border-bottom: none;
+  background-image: repeating-linear-gradient(
+    to bottom,
+    transparent 0,
+    transparent calc(1.95rem - 1px),
+    var(--brass-dim) calc(1.95rem - 1px),
+    var(--brass-dim) calc(1.95rem)
+  );
+  background-position: 0 0.1rem;
+  padding-top: 0.15rem;
+  overflow-y: auto;
+}
+
+.finePrint {
+  font-family: "Playfair Display", serif;
+  font-style: italic;
+  font-size: 0.78rem;
+  color: #5a4a33;
+  text-align: center;
+  margin: 0.3rem 0 1.5rem;
+  line-height: 1.5;
+}
+
+.stampOverlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  opacity: 0;
+  z-index: 5;
+}
+
+.stampOverlay .stampText {
+  font-family: "Playfair Display", serif;
+  font-weight: 700;
+  font-size: clamp(1.6rem, 5vw, 2.3rem);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--burgundy);
+  border: 4px solid var(--burgundy);
+  padding: 0.4rem 1.2rem;
+  border-radius: 6px;
+  transform: rotate(-9deg) scale(1.5);
+  text-align: center;
+  background: rgba(236, 225, 198, 0.0001);
+  mix-blend-mode: multiply;
+}
+
+.isFiled .stampOverlay {
+  opacity: 1;
+  animation: stampIn 420ms cubic-bezier(0.2, 1.4, 0.4, 1) both;
+}
+
+.isFiled .fileButton {
+  pointer-events: none;
+}
+
+@keyframes stampIn {
+  0% {
+    opacity: 0;
+    transform: scale(1);
+  }
+  55% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.isFiled .stampOverlay .stampText {
+  animation: stampSlam 420ms cubic-bezier(0.2, 1.4, 0.4, 1) both;
+}
+
+@keyframes stampSlam {
+  0% {
+    transform: rotate(-9deg) scale(2.8);
+    opacity: 0;
+  }
+  70% {
+    transform: rotate(-9deg) scale(1.4);
+    opacity: 1;
+  }
+  100% {
+    transform: rotate(-9deg) scale(1.5);
+    opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .isFiled .stampOverlay,
+  .isFiled .stampOverlay .stampText {
+    animation: none;
+    opacity: 1;
+    transform: rotate(-9deg) scale(1.5);
+  }
+}
+
+/* ---------- footer: how it works seals ---------- */
+
+.docketFooter {
+  position: relative;
+  z-index: 2;
+  background: linear-gradient(180deg, var(--walnut-900) 0%, var(--walnut-950) 100%);
+  border-top: 1px solid rgba(198, 144, 63, 0.25);
+  padding: 3rem 1.5rem 2.6rem;
+}
+
+.sealsRow {
+  max-width: 56rem;
+  margin: 0 auto 2.4rem;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem;
+}
+
+.sealCard {
+  text-align: center;
+  padding: 1.2rem 0.8rem;
+}
+
+.sealCard .ring {
+  width: 5.2rem;
+  height: 5.2rem;
+  margin: 0 auto 0.9rem;
+  border-radius: 50%;
+  border: 2px solid var(--brass-dim);
+  outline: 1px solid rgba(198, 144, 63, 0.35);
+  outline-offset: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: "Playfair Display", serif;
+  font-weight: 700;
+  font-size: 1.5rem;
+  color: var(--brass-light);
+}
+
+.sealCard h3 {
+  font-family: "Courier Prime", monospace;
+  font-weight: 700;
+  font-size: 0.78rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--parchment);
+  margin: 0 0 0.4rem;
+}
+
+.sealCard p {
+  font-family: "Playfair Display", serif;
+  font-style: italic;
+  font-size: 0.88rem;
+  color: var(--parchment-dim);
+  margin: 0;
+  line-height: 1.5;
+}
+
+.docketClose {
+  text-align: center;
+  font-family: "Playfair Display", serif;
+  font-style: italic;
+  font-size: 0.85rem;
+  color: var(--parchment-dim);
+  opacity: 0.8;
+  margin: 0;
+}
+
+@media (max-width: 720px) {
+  .sealsRow {
+    grid-template-columns: 1fr;
+    gap: 1.6rem;
+  }
+  .caseCard {
+    padding: 1.9rem 1.5rem 1.8rem;
+  }
+}
+
+/* ---------- verdict mode: filled-in composition ---------- */
+
+.filledLine {
+  border-bottom: 1.5px solid var(--brass-dim);
+  padding: 0.3rem 0.1rem 0.4rem;
+  min-height: 2.3rem;
+  display: flex;
+  align-items: flex-end;
+}
+
+.filledLine .hand {
+  font-family: "Caveat", cursive;
+  font-weight: 700;
+  font-size: 1.65rem;
+  line-height: 1;
+  color: var(--ink);
+  transform: rotate(-1.2deg);
+  display: inline-block;
+}
+
+.filledArea {
+  min-height: 7.2rem;
+  max-height: 10.5rem;
+  overflow-y: auto;
+  line-height: 1.95rem;
+  padding-top: 0.15rem;
+  background-image: repeating-linear-gradient(
+    to bottom,
+    transparent 0,
+    transparent calc(1.95rem - 1px),
+    var(--brass-dim) calc(1.95rem - 1px),
+    var(--brass-dim) calc(1.95rem)
+  );
+  background-position: 0 0.1rem;
+}
+
+.filledArea .hand {
+  font-family: "Caveat", cursive;
+  font-weight: 600;
+  font-size: 1.5rem;
+  line-height: 1.95rem;
+  color: var(--ink);
+  display: block;
+  transform: rotate(-0.6deg);
+}
+
+.verdictCaption {
+  text-align: center;
+  margin: 1.6rem 0 0;
+  font-size: 0.74rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--parchment-dim);
+  opacity: 0.85;
+}
+
+.verdictActions {
+  display: flex;
+  justify-content: center;
+  margin-top: 1.4rem;
+}

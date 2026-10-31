@@ -1,0 +1,66 @@
+.courtLoader {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1.2rem;
+  background: radial-gradient(ellipse at 50% 45%, rgba(30, 20, 10, 0.78) 0%, rgba(8, 5, 3, 0.92) 100%);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 420ms ease;
+}
+
+.isActive {
+  opacity: 1;
+  pointer-events: all;
+}
+
+.seal {
+  position: relative;
+  width: 3.6rem;
+  height: 3.6rem;
+}
+
+.seal::before,
+.seal::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+}
+
+.seal::before {
+  border: 2px solid rgba(227, 183, 104, 0.2);
+}
+
+.seal::after {
+  border: 2px solid transparent;
+  border-top-color: var(--brass-light);
+  border-right-color: var(--brass-light);
+  animation: spin 950ms linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.text {
+  font-family: "Playfair Display", serif;
+  font-weight: 700;
+  font-size: 0.74rem;
+  letter-spacing: 0.26em;
+  text-transform: uppercase;
+  color: var(--parchment);
+  text-align: center;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .seal::after {
+    animation: none;
+  }
+}

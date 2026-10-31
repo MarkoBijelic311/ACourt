@@ -1,0 +1,299 @@
+.masthead {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+  padding: 2.4rem 1.5rem 1rem;
+}
+
+.eyebrow {
+  font-weight: 700;
+  font-size: 0.68rem;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--brass-light);
+  margin: 0 0 0.6rem;
+  font-family: "Courier Prime", monospace;
+}
+
+.masthead h1 {
+  font-family: "Playfair Display", Georgia, serif;
+  font-weight: 700;
+  font-size: clamp(1.5rem, 2.6vw, 2.1rem);
+  letter-spacing: 0.03em;
+  margin: 0;
+  color: var(--parchment);
+  text-shadow: 0 1px 0 rgba(0, 0, 0, 0.5);
+}
+
+.stage {
+  position: relative;
+  z-index: 2;
+  flex: 1;
+  width: 100%;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 1.4rem 1.5rem 2.5rem;
+}
+
+.folder {
+  position: relative;
+  width: min(68rem, 100%);
+}
+
+.folderBody {
+  position: relative;
+  background: linear-gradient(160deg, var(--manila) 0%, var(--manila-dark) 100%);
+  border-radius: 3px;
+  padding: 1.1rem;
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.25) inset, 0 30px 70px -20px rgba(0, 0, 0, 0.8),
+    0 12px 26px -10px rgba(0, 0, 0, 0.6);
+  transform: rotate(-0.35deg);
+}
+
+.leaves {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  background: var(--parchment);
+  border-radius: 2px;
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.5) inset;
+  overflow: hidden;
+}
+
+.leaves::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  width: 22px;
+  margin-left: -11px;
+  background: linear-gradient(90deg, rgba(0, 0, 0, 0.12), rgba(0, 0, 0, 0.03) 35%, rgba(0, 0, 0, 0.03) 65%, rgba(0, 0, 0, 0.12));
+  pointer-events: none;
+}
+
+.leaf {
+  position: relative;
+  padding: 2.4rem 2.1rem 2.2rem;
+  background-image: repeating-linear-gradient(0deg, rgba(120, 98, 58, 0.045) 0px, rgba(120, 98, 58, 0.045) 1px, transparent 1px, transparent 30px);
+  color: var(--ink);
+}
+
+.leafLeft {
+  padding-right: 1.9rem;
+}
+.leafRight {
+  padding-left: 1.9rem;
+}
+
+.stampBlock {
+  position: absolute;
+  top: 1.1rem;
+  right: 1.3rem;
+  width: 11rem;
+  padding: 0.6rem 0.9rem 0.65rem;
+  border: 1.5px solid var(--burgundy);
+  border-radius: 2px;
+  transform: rotate(3.5deg);
+  text-align: center;
+  opacity: 0.92;
+}
+
+.stampBlock .label {
+  font-weight: 700;
+  font-size: 0.56rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--burgundy);
+  margin: 0 0 0.25rem;
+}
+
+.stampBlock .signature {
+  font-family: "Caveat", cursive;
+  font-weight: 700;
+  font-size: 1.5rem;
+  line-height: 1;
+  color: var(--burgundy);
+  margin: 0 0 0.3rem;
+}
+
+.stampBlock .meta {
+  font-size: 0.56rem;
+  letter-spacing: 0.04em;
+  color: var(--burgundy-dark);
+  border-top: 1px solid var(--burgundy);
+  padding-top: 0.3rem;
+  margin: 0;
+}
+
+.section {
+  font-family: "Playfair Display", serif;
+  font-weight: 700;
+  font-size: 1.12rem;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  color: var(--ink);
+  margin: 0 0 0.9rem;
+  padding-bottom: 0.4rem;
+  border-bottom: 1.5px solid var(--brass-dim);
+}
+
+.leafLeft .section {
+  margin-top: 2.6rem;
+}
+.leafLeft .section:first-child {
+  margin-top: 0;
+}
+
+.bodyText {
+  font-size: 0.92rem;
+  line-height: 1.95rem;
+  color: var(--ink);
+  margin: 0 0 1.1rem;
+}
+
+.underlineMark {
+  text-decoration: none;
+  background-image: linear-gradient(var(--red-pen), var(--red-pen));
+  background-size: 100% 1.5px;
+  background-repeat: no-repeat;
+  background-position: 0 92%;
+}
+
+.marginNote {
+  font-family: "Caveat", cursive;
+  font-weight: 700;
+  font-size: 1.2rem;
+  line-height: 1;
+  color: var(--red-pen);
+  display: inline-block;
+  transform: rotate(-3deg);
+  margin: -0.3rem 0 1rem 0.4rem;
+}
+.marginNote::before {
+  content: "— ";
+}
+
+.timeline {
+  list-style: none;
+  margin: 0 0 0.4rem;
+  padding: 0 0 0 1.1rem;
+  border-left: 1.5px solid var(--brass-dim);
+}
+
+.timeline li {
+  position: relative;
+  padding: 0 0 1.3rem 1.1rem;
+}
+
+.timeline li::before {
+  content: "";
+  position: absolute;
+  left: -1.42rem;
+  top: 0.3rem;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: var(--brass);
+  border: 1.5px solid var(--walnut-950);
+}
+
+.timeline .date {
+  display: block;
+  font-weight: 700;
+  font-size: 0.72rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--burgundy-dark);
+  margin-bottom: 0.2rem;
+}
+
+.timeline .event {
+  display: block;
+  font-size: 0.88rem;
+  line-height: 1.5;
+  color: var(--ink);
+}
+
+.charges {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.charges li {
+  display: flex;
+  gap: 0.7rem;
+  align-items: flex-start;
+  padding: 0.6rem 0;
+  border-top: 1px dotted var(--brass-dim);
+}
+.charges li:first-child {
+  border-top: none;
+}
+
+.charges .mark {
+  flex: none;
+  width: 1.1rem;
+  height: 1.1rem;
+  margin-top: 0.12rem;
+  border: 1.5px solid var(--walnut-800);
+  border-radius: 2px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.72rem;
+  color: var(--red-pen);
+}
+
+.charges .text {
+  font-size: 0.88rem;
+  line-height: 1.5;
+  color: var(--ink);
+}
+
+.charges .text strong {
+  font-family: "Playfair Display", serif;
+  font-weight: 700;
+  font-style: italic;
+}
+
+.circleMark {
+  position: relative;
+  display: inline-block;
+}
+.circleMark::after {
+  content: "";
+  position: absolute;
+  left: -0.5rem;
+  right: -0.5rem;
+  top: -0.35rem;
+  bottom: -0.3rem;
+  border: 1.5px solid var(--red-pen);
+  border-radius: 50% / 60%;
+  transform: rotate(-2deg);
+  pointer-events: none;
+}
+
+@media (max-width: 760px) {
+  .leaves {
+    grid-template-columns: 1fr;
+  }
+  .leaves::before {
+    display: none;
+  }
+  .leafLeft {
+    padding-right: 2.1rem;
+  }
+  .leafRight {
+    padding-left: 2.1rem;
+    padding-top: 0;
+  }
+  .stampBlock {
+    position: static;
+    width: auto;
+    margin: 0 0 1.4rem;
+    transform: rotate(0);
+  }
+}

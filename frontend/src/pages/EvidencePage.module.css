@@ -1,0 +1,179 @@
+.masthead {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+  padding: 2.4rem 1.5rem 1rem;
+}
+
+.eyebrow {
+  font-weight: 700;
+  font-size: 0.68rem;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--brass-light);
+  margin: 0 0 0.6rem;
+  font-family: "Courier Prime", monospace;
+}
+
+.masthead h1 {
+  font-family: "Playfair Display", Georgia, serif;
+  font-weight: 700;
+  font-size: clamp(1.5rem, 2.6vw, 2.1rem);
+  letter-spacing: 0.03em;
+  margin: 0;
+  color: var(--parchment);
+  text-shadow: 0 1px 0 rgba(0, 0, 0, 0.5);
+}
+
+.stage {
+  position: relative;
+  z-index: 2;
+  flex: 1;
+  width: 100%;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 1.5rem 1.5rem 2.5rem;
+}
+
+.board {
+  position: relative;
+  width: min(68rem, 100%);
+}
+
+.sheet {
+  padding: 2.6rem 2.6rem 2.2rem;
+}
+
+.stampBlock {
+  position: absolute;
+  top: 1.5rem;
+  right: 1.8rem;
+  width: 11rem;
+  padding: 0.6rem 0.9rem 0.65rem;
+  border: 1.5px solid var(--burgundy);
+  border-radius: 2px;
+  transform: rotate(3.5deg);
+  text-align: center;
+  opacity: 0.92;
+  background: rgba(236, 225, 198, 0.4);
+}
+
+.stampBlock .label {
+  font-weight: 700;
+  font-size: 0.56rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--burgundy);
+  margin: 0 0 0.25rem;
+}
+
+.stampBlock .signature {
+  font-family: "Caveat", cursive;
+  font-weight: 700;
+  font-size: 1.5rem;
+  line-height: 1;
+  color: var(--burgundy);
+  margin: 0 0 0.3rem;
+}
+
+.stampBlock .meta {
+  font-size: 0.56rem;
+  letter-spacing: 0.04em;
+  color: var(--burgundy-dark);
+  border-top: 1px solid var(--burgundy);
+  padding-top: 0.3rem;
+  margin: 0;
+}
+
+.sheetKicker {
+  font-size: 0.66rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--brass-dim);
+  margin: 0 0 0.3rem;
+}
+
+.section {
+  font-family: "Playfair Display", serif;
+  font-weight: 700;
+  font-size: 1.3rem;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  color: var(--ink);
+  margin: 0 0 1.8rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1.5px solid var(--brass-dim);
+  max-width: 65%;
+}
+
+.exhibits {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2.4rem;
+  margin-bottom: 2.4rem;
+}
+
+.custody {
+  position: relative;
+  display: inline-flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  max-width: 19rem;
+  background: rgba(255, 255, 255, 0.35);
+  border: 1px solid var(--parchment-shadow);
+  border-left: 3px solid var(--brass-dim);
+  padding: 0.8rem 1rem 0.85rem;
+  transform: rotate(-0.8deg);
+  box-shadow: 0 6px 14px -6px rgba(0, 0, 0, 0.4);
+}
+
+.custody::before {
+  content: "";
+  position: absolute;
+  top: -0.5rem;
+  left: 1.2rem;
+  width: 0.7rem;
+  height: 0.7rem;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, #e3b768, var(--brass-dim));
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.custody .label {
+  font-weight: 700;
+  font-size: 0.64rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--burgundy-dark);
+}
+
+.custody .status {
+  font-family: "Caveat", cursive;
+  font-weight: 700;
+  font-size: 1.15rem;
+  color: var(--burgundy);
+  line-height: 1.1;
+}
+
+.custody .meta {
+  font-size: 0.68rem;
+  color: #5a4a33;
+  line-height: 1.4;
+}
+
+@media (max-width: 760px) {
+  .exhibits {
+    grid-template-columns: 1fr;
+    gap: 2.8rem;
+  }
+  .stampBlock {
+    position: static;
+    width: auto;
+    margin: 0 0 1.4rem;
+    transform: rotate(0);
+  }
+  .section {
+    max-width: 100%;
+  }
+}

@@ -1,0 +1,108 @@
+/* ---------- tabs variant (manila pill nav, used by Case Analysis / Evidence / Arguments) ---------- */
+
+.docFooter {
+  position: relative;
+  z-index: 2;
+  width: min(68rem, 100%);
+  margin: 0 auto;
+  padding: 0 1.5rem 3rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.navTab {
+  position: relative;
+  font-family: "Courier Prime", monospace;
+  font-weight: 700;
+  font-size: 0.78rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  text-decoration: none;
+  color: var(--walnut-950);
+  background: linear-gradient(180deg, var(--manila) 0%, var(--manila-dark) 100%);
+  border: 1px solid var(--manila-darker);
+  border-radius: 6px 6px 3px 3px;
+  padding: 0.8rem 1.4rem;
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.3) inset, 0 8px 16px -6px rgba(0, 0, 0, 0.6);
+  transition: transform 120ms ease, box-shadow 120ms ease, filter 120ms ease;
+  cursor: pointer;
+}
+
+.navTab:hover {
+  filter: brightness(1.08);
+  transform: translateY(-1px);
+}
+.navTab:active {
+  transform: translateY(1px);
+}
+
+.navTabDisabled {
+  opacity: 0.5;
+  pointer-events: none;
+  filter: grayscale(0.2);
+}
+
+.pageCount {
+  font-family: "Courier Prime", monospace;
+  font-weight: 700;
+  font-size: 0.7rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--parchment-dim);
+  white-space: nowrap;
+}
+
+@media (max-width: 760px) {
+  .docFooter {
+    flex-wrap: wrap;
+    justify-content: center;
+    text-align: center;
+  }
+}
+
+/* ---------- mini variant (plain text links, used by Closing) ---------- */
+
+.miniNav {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1.1rem;
+  padding: 1rem 1.5rem 3rem;
+  font-family: "Courier Prime", monospace;
+  font-size: 0.72rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.miniNavLink {
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: inherit;
+  letter-spacing: inherit;
+  text-transform: inherit;
+  color: var(--parchment-dim);
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+  padding-bottom: 1px;
+  transition: color 140ms ease, border-color 140ms ease;
+}
+.miniNavLink:hover {
+  color: var(--brass-light);
+  border-color: var(--brass-light);
+}
+
+.miniNav .sep {
+  color: var(--brass-dim);
+  opacity: 0.6;
+}
+
+.miniNav .pageCount {
+  color: var(--brass-dim);
+}

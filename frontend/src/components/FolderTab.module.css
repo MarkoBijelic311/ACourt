@@ -1,0 +1,22 @@
+.tab {
+  position: absolute;
+  top: -1.65rem;
+  left: 2.6rem;
+  z-index: 1;
+  background: linear-gradient(180deg, var(--manila) 0%, var(--manila-dark) 100%);
+  border: 1px solid var(--manila-darker);
+  border-bottom: none;
+  border-radius: 5px 10px 0 0;
+  padding: 0.5rem 1.4rem 0.9rem;
+  transform: rotate(-1.2deg);
+  box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.25);
+}
+
+.tab span {
+  font-family: "Courier Prime", monospace;
+  font-weight: 700;
+  font-size: 0.78rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--walnut-950);
+}

@@ -1,0 +1,26 @@
+.desk {
+  position: relative;
+  min-height: 100vh;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  isolation: isolate;
+}
+
+.deskPhoto {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 42%;
+  z-index: -3;
+}
+
+.deskVignette {
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+}
