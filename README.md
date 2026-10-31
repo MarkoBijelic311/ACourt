@@ -134,6 +134,15 @@ An earlier version of this README listed 4 "required" items for `NOT_GUILTY`, in
 - No confession and no statement from the defendant either way
 - Eyewitness ID under challengeable conditions (nighttime, no stated procedure)
 - Any single missing piece from the checklists above — the Judge treats gaps strictly, not generously
+- A **directly contradictory** case (strong GUILTY-template evidence combined with a fully verified NOT_GUILTY-template alibi for the same incident) also resolves here — tested directly, the Judge correctly refuses to arbitrarily pick a side and explains the specific contradiction instead of guessing. No verdict "switching" or random pick observed; contradictory input is a reliable, well-reasoned path to `INSUFFICIENT_EVIDENCE`, not a bug.
+
+### Known brittleness (not bugs, but worth knowing)
+
+- **Wording matters more than facts.** The Judge reasons over the literal text, not the "true" underlying event. A real, solid alibi described hedgily (e.g. "a witness says he was elsewhere, but the timeline couldn't be verified") reads as weak even if the underlying alibi is actually airtight — only the wording on the page determines the outcome.
+- **One loose thread collapses `GUILTY`.** All 7 items on the `GUILTY` checklist must be unambiguous; any single gap or anything the defense could plausibly argue drops the verdict to `INSUFFICIENT_EVIDENCE`. Getting `GUILTY` is intentionally hard; falling out of it is easy.
+- **The Case Analyst is a bottleneck.** Every downstream agent only sees what the Case Analyst extracted into `evidenceItems` — evidence described in a way that doesn't read as explicit "evidence" to that first agent is effectively invisible later, regardless of how strong it actually is in the narrative.
+- **Retries are non-deterministic.** When a handler's JSON response fails to parse, the retry re-runs the model call from scratch with no fixed seed — in principle a retry could reach a different conclusion than the original (unparseable) attempt would have.
+- **Concurrent submissions collide.** The backend holds a single global case slot; submitting while another case is still processing can overwrite in-progress state and produce a judgment that doesn't cleanly belong to either request. Always wait for one case to finish before starting another.
 
 ### Other verdict states
 
