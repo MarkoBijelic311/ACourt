@@ -17,6 +17,10 @@ import { courtObserver } from "./agents/observe.js";
 
 import { startApi } from "./api.js";
 
+process.on("unhandledRejection", (reason) => {
+  console.error("Unhandled rejection in an agent loop (server stays up):", reason);
+});
+
 async function main() {
   const caseAnalyst = createCaseAnalyst([caseAnalystHandler]);
   const prosecution = createProsecutionAgent([prosecutionHandler]);

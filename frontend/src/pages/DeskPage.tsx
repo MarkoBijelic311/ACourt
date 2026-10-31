@@ -21,6 +21,33 @@ type DeskPageProps =
 const DESK_ALT =
   "A mahogany judge's desk lit by a brass banker's lamp, with a gavel, inkwell, fountain pen and folders arranged on a leather blotter.";
 
+const MIN_CONDUCT_WORDS = 6;
+
+function wordCount(text: string): number {
+  return text.trim().split(/\s+/).filter(Boolean).length;
+}
+
+// Ordinary English sentences on any topic almost always contain at least one
+// of these function words; random gibberish or keyboard-mashing essentially
+// never does. This keeps the check general-purpose rather than restricting
+// filings to a fixed list of "serious" crime keywords.
+const ENGLISH_STOPWORDS = new Set([
+  "the", "a", "an", "to", "of", "in", "on", "and", "or", "is", "was",
+  "were", "did", "does", "do", "has", "have", "had", "that", "this",
+  "with", "for", "at", "by", "from", "not", "no", "but", "so", "because",
+  "his", "her", "their", "it", "its", "he", "she", "they", "you", "i",
+  "we", "be", "been", "being", "as", "if", "then", "than", "when",
+  "what", "who", "which", "will", "would", "could", "should", "about",
+  "after", "before", "during", "while", "out", "up", "down", "over",
+  "under", "again", "there", "here", "such", "very", "just", "my",
+  "your", "our", "them", "him", "me", "us", "all", "some", "into",
+]);
+
+function looksLikeEnglish(text: string): boolean {
+  const words = text.toLowerCase().match(/[a-z']+/g) ?? [];
+  return words.some((word) => ENGLISH_STOPWORDS.has(word));
+}
+
 export default function DeskPage(props: DeskPageProps) {
   if (props.mode === "verdict") {
     return <VerdictDesk input={props.input} verdict={props.verdict} onNewCase={props.onNewCase} />;
@@ -41,24 +68,57 @@ function FormDesk({
   const [conduct, setConduct] = useState(initialInput?.conduct ?? "");
   const [isFiled, setIsFiled] = useState(false);
   const [loaderActive, setLoaderActive] = useState(false);
+  const [validationError, setValidationError] = useState<string | null>(null);
   const timeouts = useRef<number[]>([]);
+
+  function validate(name: string, conductText: string): string | null {
+    if (!name.trim() || !conductText.trim()) {
+      return "Both fields are required.";
+    }
+    if (wordCount(conductText) < MIN_CONDUCT_WORDS) {
+      return `Please describe the alleged conduct in more detail — at least ${MIN_CONDUCT_WORDS} words.`;
+    }
+    if (!looksLikeEnglish(conductText)) {
+      return "This doesn't look like a real description. Please describe what actually happened.";
+    }
+    return null;
+  }
 
   function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
     if (isFiled) return;
-    if (!defendant.trim() || !conduct.trim()) return;
+
+    const trimmedDefendant = defendant.trim();
+    const trimmedConduct = conduct.trim();
+    const message = validate(trimmedDefendant, trimmedConduct);
+
+    if (message) {
+      setValidationError(message);
+      return;
+    }
+
+    setValidationError(null);
     setIsFiled(true);
     timeouts.current.push(window.setTimeout(() => setLoaderActive(true), 650));
     timeouts.current.push(
       window.setTimeout(() => {
-        onFileCase({ name: defendant.trim(), conduct: conduct.trim() });
+        onFileCase({ name: trimmedDefendant, conduct: trimmedConduct });
       }, 1600)
     );
   }
 
   function handleRetry() {
-    if (!defendant.trim() || !conduct.trim()) return;
-    onFileCase({ name: defendant.trim(), conduct: conduct.trim() });
+    const trimmedDefendant = defendant.trim();
+    const trimmedConduct = conduct.trim();
+    const message = validate(trimmedDefendant, trimmedConduct);
+
+    if (message) {
+      setValidationError(message);
+      return;
+    }
+
+    setValidationError(null);
+    onFileCase({ name: trimmedDefendant, conduct: trimmedConduct });
   }
 
   return (
@@ -95,7 +155,10 @@ function FormDesk({
                 autoComplete="off"
                 required
                 value={defendant}
-                onChange={(e) => setDefendant(e.target.value)}
+                onChange={(e) => {
+                  setDefendant(e.target.value);
+                  if (validationError) setValidationError(null);
+                }}
               />
             </div>
 
@@ -110,7 +173,10 @@ function FormDesk({
                 placeholder="On the evening in question, the defendant did knowingly..."
                 required
                 value={conduct}
-                onChange={(e) => setConduct(e.target.value)}
+                onChange={(e) => {
+                  setConduct(e.target.value);
+                  if (validationError) setValidationError(null);
+                }}
               />
             </div>
 
@@ -119,6 +185,12 @@ function FormDesk({
               <br />
               The tribunal&apos;s verdict shall be rendered without delay or recess.
             </p>
+
+            {validationError && !error && (
+              <p className={styles.fieldWarning} role="alert">
+                {validationError}
+              </p>
+            )}
 
             {error && (
               <div className={styles.errorNotice} role="alert">

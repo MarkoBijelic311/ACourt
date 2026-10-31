@@ -192,7 +192,24 @@ export function mapCaseClosing(judgment: BackendJudgmentReport): CaseClosing {
   };
 }
 
-export function mapVerdict(judgment: BackendJudgmentReport): Verdict {
+/**
+ * If neither side produced a single argument, the filing gave the agents
+ * nothing to work with — there's no real case to render a verdict on, so we
+ * flag it distinctly rather than passing through whatever the Judge agent
+ * guessed at from empty input.
+ */
+export function mapVerdict(
+  judgment: BackendJudgmentReport,
+  prosecution: BackendAgentArguments | null,
+  defense: BackendAgentArguments | null
+): Verdict {
+  const prosecutionEmpty = !prosecution || prosecution.arguments.length === 0;
+  const defenseEmpty = !defense || defense.arguments.length === 0;
+
+  if (prosecutionEmpty && defenseEmpty) {
+    return "UNABLE_TO_ADJUDICATE";
+  }
+
   return judgment.verdict;
 }
 
@@ -210,6 +227,6 @@ export function buildCaseReport(
     evidence: mapCaseEvidence(analysis, evidenceReview),
     arguments: mapCaseArguments(prosecution, defense),
     closing: mapCaseClosing(judgment),
-    verdict: mapVerdict(judgment),
+    verdict: mapVerdict(judgment, prosecution, defense),
   };
 }
