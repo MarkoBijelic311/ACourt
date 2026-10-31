@@ -13,25 +13,45 @@ type Page = "form" | "loading" | "analysis" | "evidence" | "arguments" | "closin
 export default function App() {
   const [page, setPage] = useState<Page>("form");
   const [caseReport, setCaseReport] = useState<CaseReport | null>(null);
+  const [pendingInput, setPendingInput] = useState<CaseInput | null>(null);
+  const [error, setError] = useState<string | null>(null);
+  const [loadingText, setLoadingText] = useState("The agents are reviewing the case…");
 
   async function handleFileCase(input: CaseInput) {
+    setPendingInput(input);
+    setError(null);
+    setLoadingText("The agents are reviewing the case…");
     setPage("loading");
-    const report = await runCase(input);
-    setCaseReport(report);
-    setPage("analysis");
+    try {
+      const report = await runCase(input, (stage) => setLoadingText(stage));
+      setCaseReport(report);
+      setPage("analysis");
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Something went wrong while filing the case.");
+      setPage("form");
+    }
   }
 
   function handleNewCase() {
     setCaseReport(null);
+    setPendingInput(null);
+    setError(null);
     setPage("form");
   }
 
   switch (page) {
     case "form":
-      return <DeskPage mode="form" onFileCase={handleFileCase} />;
+      return (
+        <DeskPage
+          mode="form"
+          onFileCase={handleFileCase}
+          error={error}
+          initialInput={pendingInput}
+        />
+      );
 
     case "loading":
-      return <LoadingPage />;
+      return <LoadingPage text={loadingText} />;
 
     case "analysis":
       if (!caseReport) return <LoadingPage />;

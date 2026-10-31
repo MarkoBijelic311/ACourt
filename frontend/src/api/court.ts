@@ -1,123 +1,150 @@
-import type { CaseInput, CaseReport, Verdict } from "../types";
+import type { CaseInput, CaseReport } from "../types";
+import type {
+  BackendAnalysisResponse,
+  BackendArgumentsResponse,
+  BackendErrorResponse,
+  BackendEvidenceReviewResponse,
+  BackendJudgmentResponse,
+  BackendStatus,
+} from "./backendTypes";
+import { buildCaseReport } from "./mapCaseReport";
 
-const MOCK_DELAY_MS = 3000;
+const API_URL = import.meta.env.VITE_API_URL;
 
-function buildReport(input: CaseInput, verdict: Verdict): CaseReport {
-  return {
-    input,
-    analysis: {
-      summaryParagraphs: [
-        "On the evening in question, the Defendant is alleged to have engaged in conduct inconsistent with the standards of good‑faith dealing described in the original filing. The Analyst Agent reviewed the submitted account and cross‑referenced the available correspondence, finding ==no immediate contradictions== within the Complainant's narrative.",
-        "Three points of fact were extracted for consideration: the timing of the alleged conduct, the parties present at the time, and the ==absence of any prior resolution attempt== between the two parties.",
-      ],
-      charges: [
-        {
-          mark: "I",
-          title: "Breach of Good Faith",
-          description: "failure to engage in good‑faith resolution prior to escalation.",
-        },
-        {
-          mark: "✓",
-          title: "Pattern of Disregard",
-          description: "repeated conduct despite prior notice to the Defendant.",
-          circled: true,
-        },
-        {
-          mark: "III",
-          title: "Undue Delay",
-          description: "failure to respond within a reasonable time.",
-        },
-      ],
-      timeline: [
-        { date: "Oct 14", event: "Initial disagreement reported by the Complainant." },
-        { date: "Oct 19", event: "Defendant allegedly repeats the conduct in a written exchange." },
-        { date: "Oct 22", event: "Complainant requests resolution; ==no response recorded==." },
-        { date: "Oct 31", event: "Case formally filed with the Court." },
-      ],
-    },
-    evidence: {
-      exhibits: [
-        {
-          kind: "photo",
-          label: "Exhibit A",
-          caption: "Scene photograph, taken Oct 14 — cup overturned, chairs disturbed.",
-          imageAlt:
-            "Polaroid-style evidence photograph of an empty conference table, a chair pushed back, and a coffee cup knocked over with liquid spilled across the surface.",
-        },
-        {
-          kind: "document",
-          label: "Exhibit B",
-          caption: "Excerpt from the Defendant's message, entered in full under seal.",
-          byline: "Written exchange · Oct 19",
-          excerpt:
-            "“…I told you already, I'm not doing this again the same way. Don't expect me to wait around—”",
-        },
-        {
-          kind: "document",
-          label: "Exhibit C",
-          caption: "Complainant's final request. Left unanswered for nine days.",
-          byline: "Resolution request · Oct 22",
-          excerpt: "“I'm asking one more time that we settle this properly before it goes further.”",
-          noReply: true,
-        },
-      ],
-      custodyStatus: "Unbroken — sealed",
-      custodyMeta:
-        "Logged by Evidence Agent, 10/31/2026 14:02. Exhibits A–C retained in the digital locker.",
-    },
-    arguments: {
-      prosecution: {
-        kicker: "On behalf of the Complainant",
-        heading: "Prosecution",
-        points: [
-          { text: "The record shows a documented pattern, not an isolated incident.", cite: "Exhibit B" },
-          { text: "No attempt at resolution was made despite a direct, dated request.", cite: "Exhibit C" },
-          { text: "The scene photograph corroborates the timeline exactly as filed.", cite: "Exhibit A" },
-        ],
-        rebuttalHeading: "In Reply to the Defense",
-        rebuttalText:
-          "A claim of miscommunication does not account for nine days of unbroken silence following a direct request.",
-      },
-      defense: {
-        kicker: "On behalf of the Defendant",
-        heading: "Defense",
-        points: [
-          { text: "A single heated exchange does not establish a pattern of conduct." },
-          { text: "The Complainant's request arrived during an already-acknowledged period of unavailability." },
-          { text: "No physical harm or measurable loss has been demonstrated by the record." },
-        ],
-        rebuttalHeading: "In Reply to the Prosecution",
-        rebuttalText:
-          "A photograph of a disturbed room is evidence of a disturbed room — not proof of what was said, or by whom.",
-      },
-    },
-    closing: {
-      paragraphs: [
-        "This tribunal has reviewed the matter in full. The Analyst Agent found the Complainant's account internally consistent; the Evidence Agent entered three exhibits without objection from either party; the Debate Agent heard the Prosecution and the Defense argue the same five days of record to opposite conclusions.",
-        "Nothing remains in dispute as to what occurred. What remains is a judgment as to what it means, and what, if anything, is owed.",
-        "The panel has heard enough. Let the record show the hearing closed on the 31st of October, 2026, and let judgment follow without further delay.",
-      ],
-    },
-    verdict,
-  };
+// Agents are slow (sequential LLM calls) — give the whole run plenty of room.
+const OVERALL_TIMEOUT_MS = 170_000;
+const POLL_INTERVAL_MS = 1500;
+
+export type AgentStage =
+  | "Filing the case…"
+  | "The Case Analyst is reviewing the filing…"
+  | "The Prosecution is preparing arguments…"
+  | "The Defense is preparing arguments…"
+  | "The Evidence Reviewer is weighing the record…"
+  | "The Judge is deliberating…"
+  | "Finalizing the case file…";
+
+function stageFromStatus(status: BackendStatus): AgentStage {
+  if (!status.caseAnalystCompleted) return "The Case Analyst is reviewing the filing…";
+  if (!status.prosecutorCompleted) return "The Prosecution is preparing arguments…";
+  if (!status.defenseCompleted) return "The Defense is preparing arguments…";
+  if (!status.evidenceReviewerCompleted) return "The Evidence Reviewer is weighing the record…";
+  if (!status.judgeCompleted) return "The Judge is deliberating…";
+  return "Finalizing the case file…";
 }
 
-/**
- * TODO(backend): replace with a real network call once the service exists, e.g.
- *
- *   export async function runCase(input: CaseInput): Promise<CaseReport> {
- *     const res = await fetch("/api/case", {
- *       method: "POST",
- *       headers: { "Content-Type": "application/json" },
- *       body: JSON.stringify(input),
- *     });
- *     if (!res.ok) throw new Error(`runCase failed: ${res.status}`);
- *     return res.json();
- *   }
- */
-export function runCase(input: CaseInput): Promise<CaseReport> {
-  const verdict: Verdict = Math.random() < 0.5 ? "GUILTY" : "NOT GUILTY";
-  return new Promise((resolve) => {
-    setTimeout(() => resolve(buildReport(input, verdict)), MOCK_DELAY_MS);
+function buildCaseDescription(input: CaseInput): string {
+  return `Defendant: ${input.name}\n\nAlleged Conduct: ${input.conduct}`;
+}
+
+async function readJson<T>(res: Response): Promise<T> {
+  const text = await res.text();
+  try {
+    return text ? (JSON.parse(text) as T) : ({} as T);
+  } catch {
+    throw new Error(`The court returned an unreadable response (${res.status}).`);
+  }
+}
+
+function sleep(ms: number, signal: AbortSignal): Promise<void> {
+  return new Promise((resolve, reject) => {
+    const timer = setTimeout(resolve, ms);
+    const onAbort = () => {
+      clearTimeout(timer);
+      reject(new DOMException("Aborted", "AbortError"));
+    };
+    if (signal.aborted) onAbort();
+    signal.addEventListener("abort", onAbort, { once: true });
   });
+}
+
+async function pollUntilJudged(
+  signal: AbortSignal,
+  onProgress?: (stage: AgentStage) => void
+): Promise<void> {
+  while (true) {
+    const res = await fetch(`${API_URL}/api/status`, { signal });
+    if (!res.ok) {
+      throw new Error(`Could not reach the court for a status update (${res.status}).`);
+    }
+    const status = await readJson<BackendStatus>(res);
+    onProgress?.(stageFromStatus(status));
+
+    if (status.judgeCompleted) return;
+
+    await sleep(POLL_INTERVAL_MS, signal);
+  }
+}
+
+export async function runCase(
+  input: CaseInput,
+  onProgress?: (stage: AgentStage) => void
+): Promise<CaseReport> {
+  const controller = new AbortController();
+  const timeoutId = setTimeout(() => controller.abort(), OVERALL_TIMEOUT_MS);
+
+  try {
+    onProgress?.("Filing the case…");
+
+    const caseDescription = buildCaseDescription(input);
+
+    const submitRes = await fetch(`${API_URL}/api/case`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ caseDescription }),
+      signal: controller.signal,
+    });
+
+    if (!submitRes.ok) {
+      const body = await readJson<BackendErrorResponse>(submitRes).catch(() => null);
+      throw new Error(body?.error || `Failed to file the case (${submitRes.status}).`);
+    }
+
+    await pollUntilJudged(controller.signal, onProgress);
+
+    const [analysisRes, argumentsRes, evidenceRes, judgmentRes] = await Promise.all([
+      fetch(`${API_URL}/api/analysis`, { signal: controller.signal }),
+      fetch(`${API_URL}/api/arguments`, { signal: controller.signal }),
+      fetch(`${API_URL}/api/evidence-review`, { signal: controller.signal }),
+      fetch(`${API_URL}/api/judgment`, { signal: controller.signal }),
+    ]);
+
+    if (!analysisRes.ok || !argumentsRes.ok || !evidenceRes.ok || !judgmentRes.ok) {
+      throw new Error("The court returned an error while fetching the final case file.");
+    }
+
+    const [analysisBody, argumentsBody, evidenceBody, judgmentBody] = await Promise.all([
+      readJson<BackendAnalysisResponse>(analysisRes),
+      readJson<BackendArgumentsResponse>(argumentsRes),
+      readJson<BackendEvidenceReviewResponse>(evidenceRes),
+      readJson<BackendJudgmentResponse>(judgmentRes),
+    ]);
+
+    if (!analysisBody.analysis || !judgmentBody.judgment) {
+      throw new Error("The court finished deliberating but did not return a complete case file.");
+    }
+
+    return buildCaseReport(
+      input,
+      analysisBody.analysis,
+      argumentsBody.prosecution,
+      argumentsBody.defense,
+      evidenceBody.evidenceReview ?? null,
+      judgmentBody.judgment
+    );
+  } catch (err) {
+    if (err instanceof DOMException && err.name === "AbortError") {
+      throw new Error(
+        "The court did not reach a verdict in time. The agents may still be working — please try again."
+      );
+    }
+    if (err instanceof TypeError) {
+      throw new Error(
+        `Could not reach the court backend at ${API_URL}. Is it running?`
+      );
+    }
+    throw err;
+  } finally {
+    clearTimeout(timeoutId);
+  }
 }

@@ -67,7 +67,7 @@ export interface CaseClosing {
   paragraphs: string[];
 }
 
-export type Verdict = "GUILTY" | "NOT GUILTY";
+export type Verdict = "GUILTY" | "NOT_GUILTY" | "INSUFFICIENT_EVIDENCE";
 
 export interface CaseReport {
   input: CaseInput;

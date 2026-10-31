@@ -10,7 +10,12 @@ import deskHero from "../assets/desk-hero.png";
 import styles from "./DeskPage.module.css";
 
 type DeskPageProps =
-  | { mode: "form"; onFileCase: (input: CaseInput) => void }
+  | {
+      mode: "form";
+      onFileCase: (input: CaseInput) => void;
+      error?: string | null;
+      initialInput?: CaseInput | null;
+    }
   | { mode: "verdict"; input: CaseInput; verdict: Verdict; onNewCase: () => void };
 
 const DESK_ALT =
@@ -20,12 +25,20 @@ export default function DeskPage(props: DeskPageProps) {
   if (props.mode === "verdict") {
     return <VerdictDesk input={props.input} verdict={props.verdict} onNewCase={props.onNewCase} />;
   }
-  return <FormDesk onFileCase={props.onFileCase} />;
+  return <FormDesk onFileCase={props.onFileCase} error={props.error} initialInput={props.initialInput} />;
 }
 
-function FormDesk({ onFileCase }: { onFileCase: (input: CaseInput) => void }) {
-  const [defendant, setDefendant] = useState("");
-  const [conduct, setConduct] = useState("");
+function FormDesk({
+  onFileCase,
+  error,
+  initialInput,
+}: {
+  onFileCase: (input: CaseInput) => void;
+  error?: string | null;
+  initialInput?: CaseInput | null;
+}) {
+  const [defendant, setDefendant] = useState(initialInput?.name ?? "");
+  const [conduct, setConduct] = useState(initialInput?.conduct ?? "");
   const [isFiled, setIsFiled] = useState(false);
   const [loaderActive, setLoaderActive] = useState(false);
   const timeouts = useRef<number[]>([]);
@@ -33,6 +46,7 @@ function FormDesk({ onFileCase }: { onFileCase: (input: CaseInput) => void }) {
   function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
     if (isFiled) return;
+    if (!defendant.trim() || !conduct.trim()) return;
     setIsFiled(true);
     timeouts.current.push(window.setTimeout(() => setLoaderActive(true), 650));
     timeouts.current.push(
@@ -40,6 +54,11 @@ function FormDesk({ onFileCase }: { onFileCase: (input: CaseInput) => void }) {
         onFileCase({ name: defendant.trim(), conduct: conduct.trim() });
       }, 1600)
     );
+  }
+
+  function handleRetry() {
+    if (!defendant.trim() || !conduct.trim()) return;
+    onFileCase({ name: defendant.trim(), conduct: conduct.trim() });
   }
 
   return (
@@ -100,6 +119,20 @@ function FormDesk({ onFileCase }: { onFileCase: (input: CaseInput) => void }) {
               <br />
               The tribunal&apos;s verdict shall be rendered without delay or recess.
             </p>
+
+            {error && (
+              <div className={styles.errorNotice} role="alert">
+                <p className={styles.errorText}>{error}</p>
+                <BrassButton
+                  className={styles.retryButton}
+                  type="button"
+                  variant="pill"
+                  onClick={handleRetry}
+                >
+                  Try Again
+                </BrassButton>
+              </div>
+            )}
 
             <BrassButton className={styles.fileButton} type="submit" disabled={isFiled}>
               File the Case
