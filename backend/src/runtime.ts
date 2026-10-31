@@ -1,6 +1,6 @@
-
 import { defineRuntime } from "@mozaik-ai/core";
-import { AppState } from "./types/appState.js";
+import { AppState } from "../types/appState.js";
+
 
 const runtime = defineRuntime<AppState>();
 
